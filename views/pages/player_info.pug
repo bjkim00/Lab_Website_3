@@ -1,0 +1,76 @@
+//- player-info.pug
+include ../partials/header.pug
+include ../partials/menu.pug
+
+div.container
+  br
+  div.row
+    div.col-4
+      div.card
+        //- TODO: Modify the pug code below to conditionally set the image_src
+        - let image_src = '../../resources/img/helmet.jpg'
+
+        img.card-img-top#player_img(src= image_src, alt="Football Player")
+        div.card-body.mx-auto
+          form.form(action="/player_info/post", method="get")
+            select.custom-select(name="player_choice", onchange="this.form.submit()")
+              option(selected) Select Player
+              //- TODO: Populate the select with player options. Set the value to the player's id and display the player's name.
+              - if(players)
+                  for row in players
+                    if(player_ID != row.id)
+                      option(value=row.id)= row.name
+                    else
+                      option(value=row.id selected)= row.name
+
+    div.col-8
+      div.table-responsive
+        table.table
+          //- TODO: Set the player's information. On select, fill in the player's information in each of the field below. You will need to calculate the average rushing, receiving, and passing yards.
+          tr
+            th Year
+            if(player_ID)
+              td= statsOfPlayer.year
+            else
+              td N/A
+          tr
+            th Major
+            if(player_ID)
+              td= statsOfPlayer.major
+            else
+              td N/A
+          tr
+            th Total Games Played
+            if(player_ID)
+              td= totalGames
+            else
+              td N/A
+          tr
+            if(player_ID)
+              td= "Total Passing Yards: " + statsOfPlayer.passing_yards
+            else
+              td Passing Yards:
+            if(player_ID)
+              td= "Avg. Passing Yards: " + (statsOfPlayer.passing_yards / totalGames).toFixed(1)
+            else
+              td Avg. Passing Yards:
+          tr
+            if(player_ID)
+              td= "Total Rushing Yards: " + statsOfPlayer.rushing_yards
+            else
+              td Rushing Yards:
+            if(player_ID)
+              td= "Avg. Rushing Yards: " + (statsOfPlayer.rushing_yards / totalGames).toFixed(1)
+            else
+              td Avg. Rushing Yards:
+          tr
+            if(player_ID)
+              td= "Total Receiving Yards: " + statsOfPlayer.receiving_yards
+            else
+              td Receiving Yards:
+            if(player_ID)
+              td= "Avg. Receiving Yards: " + (statsOfPlayer.receiving_yards / totalGames).toFixed(1)
+            else
+              td Avg. Receiving Yards:
+
+include ../partials/footer.pug
